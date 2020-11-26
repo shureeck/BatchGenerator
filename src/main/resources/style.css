@@ -1,0 +1,42 @@
+.tab-pane{
+    -fx-tab-min-width:24px;
+    -fx-tab-max-width:24px;
+    -fx-tab-min-height:130px;
+    -fx-tab-max-height:130px;
+    -fx-close-tab-animation: NONE;
+}
+.hyperlink{
+    -fx-font-size: 18px;
+}
+
+.hbox-attribute{
+    -fx-padding: 5 5 5 5;
+    -fx-font-size: 14px;
+}
+.label-attribute{
+    -fx-font-weight: bold;
+    -fx-pref-width:150;
+}
+.value-size{
+    -fx-pref-width: 350;
+}
+
+.label, .text-area{
+    -fx-font-size: 14px;
+}
+
+.label-attr-command{
+    -fx-text-fill: violet;
+}
+.label-attrname-command{
+    -fx-text-fill: red;
+}
+.label-command{
+    -fx-text-fill: blue;
+}
+.label-command-newcli{
+    -fx-text-fill: black;
+}
+.text-area{
+    -fx-text-fill: blue;
+}

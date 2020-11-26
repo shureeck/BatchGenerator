@@ -1,0 +1,322 @@
+---
+- group: "Work with project"
+  commands:
+  - command: "CreateProject"
+    old: "NewProjectCommand"
+    attributes:
+    - attribute: "source"
+      old: "sourceVendor"
+      type: "String"
+      values:
+      - "oracle"
+      - "mysql"
+      - "postgre"
+    - attribute: "target"
+      old: "targetVendor"
+      type: "String"
+      values:
+      - "oracle"
+      - "mysql"
+      - "postgre"
+    - attribute: "name"
+      require: false
+      old: "projectName"
+      type: "String"
+    - attribute: "directory"
+      require: false
+      type: "FolderPath"
+  - command: "OpenProject"
+    old: "OpenProjectCommand"
+    attributes:
+    - attribute: "file"
+      old: "projectFilePath"
+      type: "FilePath"
+  - command: "SaveProject"
+    old: "SaveProjectCommand"
+    attributes:
+- group: "Connect"
+  commands:
+  - command: "ConnectSource"
+    old:  "ConnectCommand"
+    attributes:
+    - attribute: "vendor"
+      type: "String"
+      values:
+      - "oracle"
+      - "mysql"
+      - "postgresql"
+    - attribute: "host"
+      old: "serverName"
+      type: "String"
+    - attribute: "port"
+      type: "String"
+      require: false
+    - attribute: "database"
+      old: "sid"
+      type: "String"
+      require: false
+    - attribute: "serviceName"
+      type: "String"
+      require: false
+    - attribute: "user"
+      old: "userName"
+      type: "String"
+      require: false
+    - attribute: "password"
+      old: "password"
+      type: "String"
+      require: false
+    - attribute: "tnsAlias"
+      type: "String"
+      require: false
+    - attribute: "tnsFilePath"
+      type: "FilePath"
+      require: false
+    - attribute: "tnsConnectIdentifier"
+      type: "String"
+      require: false
+    - attribute: "connectionType"
+      type: "String"
+      require: false
+      values:
+      - "BASIC_SERVICE_NAME"
+      - "BASIC_SID"
+      - "TNS_ALIAS"
+      - "TNS_CONNECT_IDENTIFIER"
+    - attribute: "processMode"
+      type: "String"
+      require: false
+      values:
+      - "MAIN"
+      - "EXTENDED"
+    - attribute: "ldapAuthentication"
+      old: "useLdapAuthentication"
+      type: "Boolean"
+      require: false
+    - attribute: "windowsAuthentication"
+      old: "useWindowsAuthentication"
+      type: "Boolean"
+      require: false
+    - attribute: "requireCharset"
+      type: "Boolean"
+      require: false
+    - attribute: "charset"
+      old: "charsetValue"
+      type: "String"
+      require: false
+    - attribute: "region"
+      type: "String"
+      require:
+    - attribute: "accessKey"
+      type: "String"
+      require: false
+    - attribute: "secretKey"
+      type: "String"
+      require: false
+    - attribute: "s3Path"
+      type: "String"
+      require: false
+    - attribute: "profileName"
+      type: "String"
+      require: false
+    - attribute: "useSSL"
+      old: "useSsl"
+      type: "Boolean"
+      require: false
+    - attribute: "ignoreErrors"
+      old: "N/A"
+      type: "Boolean"
+      require: false
+    - attribute: "encryptData"
+      type: "Boolean"
+      require: false
+    - attribute: "sslAuthentication"
+      type: "Boolean"
+      require: false
+    - attribute: "encryptConnection"
+      type: "Boolean"
+      require: false
+    - attribute: "trustServerCertificate"
+      type: "Boolean"
+      require: false
+    - attribute: "requireSSL"
+      old: "requireSSL"
+      type: "Boolean"
+      require: false
+    - attribute: "verifyServerCertificate"
+      type: "Boolean"
+      require: false
+    - attribute: "keyStoreAlias"
+      type: "String"
+      require: false
+    - attribute: "trustStoreAlias"
+      type: "String"
+      require: false
+  - command: "ConnectTarget"
+    old:  "ConnectCommand"
+    attributes:
+      - attribute: "vendor"
+        type: "String"
+        values:
+          - "oracle"
+          - "mysql"
+          - "postgresql"
+      - attribute: "host"
+        old: "serverName"
+        type: "String"
+      - attribute: "port"
+        type: "String"
+        require: false
+      - attribute: "database"
+        old: "sid"
+        type: "String"
+        require: false
+      - attribute: "serviceName"
+        type: "String"
+        require: false
+      - attribute: "user"
+        old: "userName"
+        type: "String"
+        require: false
+      - attribute: "password"
+        old: "password"
+        type: "String"
+        require: false
+      - attribute: "tnsAlias"
+        type: "String"
+        require: false
+      - attribute: "tnsFilePath"
+        type: "FilePath"
+        require: false
+      - attribute: "tnsConnectIdentifier"
+        type: "String"
+        require: false
+      - attribute: "connectionType"
+        type: "String"
+        require: false
+        values:
+          - "BASIC_SERVICE_NAME"
+          - "BASIC_SID"
+          - "TNS_ALIAS"
+          - "TNS_CONNECT_IDENTIFIER"
+      - attribute: "processMode"
+        type: "String"
+        require: false
+        values:
+          - "MAIN"
+          - "EXTENDED"
+      - attribute: "ldapAuthentication"
+        old: "useLdapAuthentication"
+        type: "Boolean"
+        require: false
+      - attribute: "windowsAuthentication"
+        old: "useWindowsAuthentication"
+        type: "Boolean"
+        require: false
+      - attribute: "requireCharset"
+        type: "Boolean"
+        require: false
+      - attribute: "charset"
+        old: "charsetValue"
+        type: "String"
+        require: false
+      - attribute: "region"
+        type: "String"
+        require:
+      - attribute: "accessKey"
+        type: "String"
+        require: false
+      - attribute: "secretKey"
+        type: "String"
+        require: false
+      - attribute: "s3Path"
+        type: "String"
+        require: false
+      - attribute: "profileName"
+        type: "String"
+        require: false
+      - attribute: "useSSL"
+        old: "useSsl"
+        type: "Boolean"
+        require: false
+      - attribute: "ignoreErrors"
+        old: "N/A"
+        type: "Boolean"
+        require: false
+      - attribute: "encryptData"
+        type: "Boolean"
+        require: false
+      - attribute: "sslAuthentication"
+        type: "Boolean"
+        require: false
+      - attribute: "encryptConnection"
+        type: "Boolean"
+        require: false
+      - attribute: "trustServerCertificate"
+        type: "Boolean"
+        require: false
+      - attribute: "requireSSL"
+        old: "requireSSL"
+        type: "Boolean"
+        require: false
+      - attribute: "verifyServerCertificate"
+        type: "Boolean"
+        require: false
+      - attribute: "keyStoreAlias"
+        type: "String"
+        require: false
+      - attribute: "trustStoreAlias"
+        type: "String"
+        require: false
+- group: "Load tree"
+  commands:
+  - command: "LoadTreeCommand"
+    attributes:
+    - attribute: "origin"
+      type: "String"
+      values:
+      - "MAIN"
+      - "EXTENDED"
+  - command: "LoadTreeNodeCommand"
+    attributes:
+    - attribute: "origin"
+      type: "String"
+      values:
+      - "MAIN"
+      - "EXTENDED"
+    - attribute: "fullName"
+      type: "ObjectPath"
+- group: "Convert / Create report"
+  commands:
+  - command: "CreateReportCommand"
+    attributes:
+    - attribute: "sourceFullName"
+      type: "SchemaPath"
+  - command: "CreateServerLevelObjectsReportCommand"
+    attributes:
+  - command: "ReportToCSVFileCommand"
+    attributes:
+    - attribute: "filePath"
+      type: "FilePath"
+    - attribute: "fullName"
+      type: "SchemaPath"
+  - command: "ReportToPdfFileCommand"
+    attributes:
+    - attribute: "filePath"
+      type: "FilePath"
+    - attribute: "fullName"
+      type: "SchemaPath"
+  - command: "ServerLevelObjectsReportToCsvFileCommand"
+    attributes:
+    - attribute: "filePath"
+      type: "FilePath"
+  - command: "ServerLevelObjectsReportToPdfFileCommand"
+    attributes:
+    - attribute: "filePath"
+      type: "FilePath"
+  - command: "TransformTreeNodeCommand"
+    attributes:
+    - attribute: "sourceFullName"
+      type: "SchemaPath"
+
+    

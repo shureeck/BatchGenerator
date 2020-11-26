@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/2.2" fx:controller="gui.BuilderController">
+    <children>
+        <Button id="cancelButton" fx:id="cancelBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Cancel"
+                AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+            <font>
+                <Font size="14.0" fx:id="x1"/>
+            </font>
+        </Button>
+        <Button fx:id="addBtn" font="$x1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Add"
+                AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="100.0"/>
+        <VBox fx:id="rootVbox" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="50.0"
+              AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <AnchorPane minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+                    <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0"
+                              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <Label fx:id="commandName" text="NewProjectCommand">
+                                    <font>
+                                        <Font name="System Bold" size="18.0"/>
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x2"/>
+                                    </VBox.margin>
+                                </Label>
+                                <AnchorPane prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+                                    <children>
+                                        <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+                                                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                                    AnchorPane.topAnchor="0.0">
+                                            <content>
+                                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0"
+                                                            prefHeight="-1.0" prefWidth="-1.0">
+                                                    <children>
+                                                        <VBox id="AttributeListVbox" fx:id="attributeListVbox"
+                                                              alignment="CENTER" maxHeight="-Infinity"
+                                                              maxWidth="-Infinity" minHeight="-Infinity"
+                                                              minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0"
+                                                              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                                              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+                                                    </children>
+                                                </AnchorPane>
+                                            </content>
+                                        </ScrollPane>
+                                    </children>
+                                </AnchorPane>
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+                <AnchorPane maxHeight="-Infinity" maxWidth="598.0" minHeight="-Infinity" minWidth="-Infinity"
+                            prefHeight="100.0" prefWidth="598.0" VBox.vgrow="NEVER">
+                    <children>
+                        <ScrollPane hbarPolicy="AS_NEEDED" maxHeight="1.7976931348623157E308"
+                                    maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                                    prefHeight="-1.0" prefWidth="-1.0" vbarPolicy="AS_NEEDED"
+                                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <content>
+                                <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0"
+                                            prefWidth="-1.0">
+                                    <children>
+                                        <VBox fx:id="commandVbox" fillWidth="false" maxHeight="1.7976931348623157E308"
+                                              maxWidth="1.7976931348623157E308" minHeight="90.0" minWidth="590.0"
+                                              prefHeight="-1.0" prefWidth="-1.0" snapToPixel="true" style="&#10;"
+                                              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </ScrollPane>
+                    </children>
+                </AnchorPane>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

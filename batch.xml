@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<tree>
+  <instances>
+    <BatchJob>
+      <NewProjectCommand directory="C:\Users\poliakov.a\AWS Schema Conversion Tool" projectName="myPrj" targetVendor="oracle"/>
+      <ConnectCommand origin="SOURCE" serverName="xsaafdsdf" vendor="oracle"/>
+      <SaveProjectCommand/>
+    </BatchJob>
+  </instances>
+</tree>
