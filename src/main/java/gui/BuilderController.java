@@ -140,10 +140,16 @@ public class BuilderController {
     }
 
     public void fillNewCommand(String string) {
+        Button remove = new Button();
+        HBox buttonHbox = new HBox(remove);
+        HBox.setHgrow(buttonHbox, Priority.ALWAYS);
+        buttonHbox.minWidth(Double.MAX_VALUE);
+        buttonHbox.getStyleClass().add("btn-hbox");
+        remove.getStyleClass().add("remove-btn");
         Label name = new Label("-" + string.split("=", 2)[0] + ":");
         Label label = new Label(string.split("=", 2)[1]);
         HBox hBox = new HBox();
-
+        remove.setOnAction(actionEvent -> onRemoveClick(hBox));
 
         name.getStyleClass().add("label-command");
         label.getStyleClass().add("label-attr-command");
@@ -151,6 +157,7 @@ public class BuilderController {
 
         hBox.getChildren().add(name);
         hBox.getChildren().add(label);
+        hBox.getChildren().add(buttonHbox);
 
         if (commandVbox.getChildren().size() == 0) {
             Label openTag = new Label(commandName.getText());
@@ -234,8 +241,24 @@ public class BuilderController {
 
     public void onRemoveClick(HBox hBox) {
         Label label = (Label) hBox.getChildren().get(0);
-        ((Element) commandNode).removeAttribute(label.getText());
-        if (!commandNode.hasAttributes()) commandNode = null;
+        if (isNewCLI) {
+            for (String tmp : newCLICommand.getAttributes()) {
+                if (tmp.split(":")[0].equals(label.getText().substring(0, label.getText().length() - 1))) {
+                    newCLICommand.getAttributes().remove(tmp);
+                    break;
+                }
+            }
+            if (newCLICommand.getAttributes().size() == 0) {
+                newCLICommand = null;
+                addBtn.setDisable(true);
+            }
+        } else {
+            ((Element) commandNode).removeAttribute(label.getText());
+            if (!commandNode.hasAttributes()) {
+                commandNode = null;
+                addBtn.setDisable(true);
+            }
+        }
         for (int i = 0; i < attributeListVbox.getChildren().size(); i++) {
             if (((AttributeContainer) attributeListVbox.getChildren().get(i)).getAttributeName().equals(label.getText())) {
                 ((AttributeContainer) attributeListVbox.getChildren().get(i)).setDisable(false);
@@ -243,6 +266,5 @@ public class BuilderController {
         }
         commandVbox.getChildren().remove(hBox);
         if (commandVbox.getChildren().size() == 2) commandVbox.getChildren().clear();
-        if (commandNode == null) addBtn.setDisable(true);
     }
 }

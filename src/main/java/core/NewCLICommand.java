@@ -23,4 +23,8 @@ public class NewCLICommand {
         command.append("/");
         return command.toString();
     }
+
+    public ArrayList<String> getAttributes() {
+        return attributes;
+    }
 }
