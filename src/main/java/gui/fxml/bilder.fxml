@@ -32,11 +32,15 @@
                 </Label>
                 <AnchorPane prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
                   <children>
-                    <ScrollPane fitToWidth="true" hmin="1.0" pannable="false" prefHeight="200.0" prefWidth="200.0" vmin="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <ScrollPane fitToHeight="false" fitToWidth="true" hmin="0.0" maxHeight="-Infinity" maxWidth="-Infinity" pannable="false" prefHeight="-1.0" prefWidth="200.0" style="" vmax="0.0" vmin="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                       <content>
-                        <AnchorPane id="Content" depthTest="INHERIT" disable="false" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="false" pickOnBounds="true" prefHeight="-1.0" prefWidth="-1.0">
+                        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0">
                           <children>
-                            <VBox id="AttributeListVbox" fx:id="attributeListVbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                            <VBox id="AttributeListVbox" fx:id="attributeListVbox" alignment="TOP_LEFT" fillWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="false" prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <padding>
+                                <Insets right="10.0" />
+                              </padding>
+                            </VBox>
                           </children>
                         </AnchorPane>
                       </content>
