@@ -13,7 +13,7 @@
     -fx-padding: 5 5 5 5;
     -fx-font-size: 14px;
     -fx-pref-height: 20px;
-    -fx-border-color: green;
+    -fx-pref-width: 798px;
 }
 .label-attribute{
     -fx-font-weight: bold;
