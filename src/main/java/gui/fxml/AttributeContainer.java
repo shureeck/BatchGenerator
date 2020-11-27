@@ -13,6 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.text.TextFlow;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -43,30 +45,32 @@ public class AttributeContainer extends HBox {
             ObservableList<String> booleanList = FXCollections.observableArrayList(
                     new ArrayList<>(Arrays.asList("true", "false")));
             ComboBox comboBox = new ComboBox(booleanList);
+            comboBox.setMaxWidth(Double.MAX_VALUE);
+            HBox.setHgrow(comboBox, Priority.ALWAYS);
             comboBox.getSelectionModel().selectFirst();
-            comboBox.getStyleClass().add("value-size");
             this.getChildren().add(comboBox);
         } else if (attribute.getType().equalsIgnoreCase(STRING.getType())) {
             if (attribute.getValues() == null || attribute.getValues().isEmpty()) {
                 TextField tf = new TextField();
-                tf.getStyleClass().add("value-size");
+                HBox.setHgrow(tf, Priority.ALWAYS);
                 this.getChildren().add(tf);
             } else {
                 ObservableList<String> valueList = FXCollections.observableArrayList(attribute.getValues());
                 ComboBox comboBox = new ComboBox(valueList);
+                comboBox.setMaxWidth(Double.MAX_VALUE);
+                HBox.setHgrow(comboBox, Priority.ALWAYS);
                 comboBox.getSelectionModel().selectFirst();
-                comboBox.getStyleClass().add("value-size");
                 this.getChildren().add(comboBox);
             }
         } else if (attribute.getType().equalsIgnoreCase(SCHEMA_PATH.getType())) {
             TextField tf = new TextField();
-            tf.getStyleClass().add("value-size");
+            HBox.setHgrow(tf, Priority.ALWAYS);
             tf.setPromptText("Schemas.SCHEMA_NAME.Tables.TABLE_NAME");
             this.getChildren().add(tf);
         } else if (attribute.getType().equalsIgnoreCase(FILE_PATH.getType())
                 || attribute.getType().equalsIgnoreCase(FOLDER_PATH.getType())) {
             TextField tf = new TextField();
-            tf.getStyleClass().add("value-size");
+            HBox.setHgrow(tf, Priority.ALWAYS);
             this.getChildren().add(tf);
             Button browseBtn = new Button("Browse");
             this.getChildren().add(browseBtn);
@@ -91,7 +95,7 @@ public class AttributeContainer extends HBox {
             }
         } else {
             TextField tf = new TextField();
-            tf.getStyleClass().add("value-size");
+            HBox.setHgrow(tf, Priority.ALWAYS);
             this.getChildren().add(tf);
         }
     }

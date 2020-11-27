@@ -12,15 +12,13 @@
 .hbox-attribute{
     -fx-padding: 5 5 5 5;
     -fx-font-size: 14px;
+    -fx-pref-height: 20px;
+    -fx-border-color: green;
 }
 .label-attribute{
     -fx-font-weight: bold;
     -fx-pref-width:150;
 }
-.value-size{
-    -fx-pref-width: 350;
-}
-
 .label, .text-area{
     -fx-font-size: 14px;
 }
@@ -39,4 +37,17 @@
 }
 .text-area{
     -fx-text-fill: blue;
+}
+.remove-btn{
+    -fx-background-image: url("Icon_Remove.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: auto;
+    -fx-background-position: center;
+    -fx-pref-height: 20px;
+    -fx-pref-width: 20px;
+}
+.btn-hbox{
+    -fx-hgrow-policy: always;
+    -fx-alignment: CENTER_RIGHT;
+    -fx-padding: 0 20 0 0;
 }

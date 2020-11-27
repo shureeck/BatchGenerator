@@ -4,12 +4,16 @@ import core.NewCLICommand;
 import core.pojo.Attribute;
 import core.pojo.Command;
 import gui.fxml.AttributeContainer;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -98,17 +102,27 @@ public class BuilderController {
     }
 
     public void fillCommand(String string) {
+        Button remove = new Button();
+        HBox buttonHbox = new HBox(remove);
+        HBox.setHgrow(buttonHbox, Priority.ALWAYS);
+        buttonHbox.minWidth(Double.MAX_VALUE);
+        buttonHbox.getStyleClass().add("btn-hbox");
+        remove.getStyleClass().add("remove-btn");
         Label name = new Label(string.split("=", 2)[0]);
         Label label = new Label(string.split("=", 2)[1]);
         HBox hBox = new HBox();
+        remove.setOnAction(actionEvent -> onRemoveClick(hBox));
 
         name.getStyleClass().add("label-attrname-command");
         label.getStyleClass().add("label-attr-command");
+        hBox.setFillHeight(true);
         hBox.setStyle("-fx-padding: 0 5 0 20;");
 
         hBox.getChildren().add(name);
         hBox.getChildren().add(new Label("="));
         hBox.getChildren().add(label);
+        hBox.getChildren().add(buttonHbox);
+
 
         if (commandVbox.getChildren().size() == 0) {
             Label openTag = new Label("<" + commandName.getText());
@@ -129,6 +143,7 @@ public class BuilderController {
         Label name = new Label("-" + string.split("=", 2)[0] + ":");
         Label label = new Label(string.split("=", 2)[1]);
         HBox hBox = new HBox();
+
 
         name.getStyleClass().add("label-command");
         label.getStyleClass().add("label-attr-command");
@@ -215,5 +230,19 @@ public class BuilderController {
 
     public NewCLICommand getNewCLICommand() {
         return newCLICommand;
+    }
+
+    public void onRemoveClick(HBox hBox) {
+        Label label = (Label) hBox.getChildren().get(0);
+        ((Element) commandNode).removeAttribute(label.getText());
+        if (!commandNode.hasAttributes()) commandNode = null;
+        for (int i = 0; i < attributeListVbox.getChildren().size(); i++) {
+            if (((AttributeContainer) attributeListVbox.getChildren().get(i)).getAttributeName().equals(label.getText())) {
+                ((AttributeContainer) attributeListVbox.getChildren().get(i)).setDisable(false);
+            }
+        }
+        commandVbox.getChildren().remove(hBox);
+        if (commandVbox.getChildren().size() == 2) commandVbox.getChildren().clear();
+        if (commandNode == null) addBtn.setDisable(true);
     }
 }
