@@ -98,6 +98,7 @@ public class MainGuiController {
         stage.resizableProperty().setValue(true);
         stage.getScene().getStylesheets().add((getClass().getResource("/style.css")).toExternalForm());
         stage.initModality(APPLICATION_MODAL);
+        stage.setResizable(false);
         stage.showAndWait();
         if (controller.isAddButtonClick()) {
             if (sctsView.isSelected()) {
@@ -160,7 +161,9 @@ public class MainGuiController {
 
     @FXML
     private void onSaveClick() {
-        if (sctsView.isSelected()){}else {}
+        if (sctsView.isSelected()) {
+        } else {
+        }
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
         fileChooser.setInitialFileName("batch.xml");

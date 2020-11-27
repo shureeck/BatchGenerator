@@ -66,7 +66,6 @@ public class BuilderController {
             for (Attribute attribute : command.getAttributes()) {
                 attributeListVbox.getChildren().add(attribute.getAttributeContainer());
             }
-            attributeListVbox.setStyle(" -fx-border-color: red;");
         } else {
             Label openTag;
             if (isNewCLI) {
