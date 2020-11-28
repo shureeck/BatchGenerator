@@ -1,8 +1,8 @@
 .tab-pane{
     -fx-tab-min-width:24px;
     -fx-tab-max-width:24px;
-    -fx-tab-min-height:130px;
-    -fx-tab-max-height:130px;
+    -fx-tab-min-height:160px;
+    -fx-tab-max-height:160px;
     -fx-close-tab-animation: NONE;
 }
 .hyperlink{
