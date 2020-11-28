@@ -5,6 +5,7 @@ public enum AttributeType {
     STRING("String"),
     SCHEMA_PATH("SchemaPath"),
     FILE_PATH("FilePath"),
+    JSON("JSON"),
     FOLDER_PATH("FolderPath");
 
     String type;

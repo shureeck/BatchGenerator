@@ -7,11 +7,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.TextFlow;
@@ -67,6 +65,11 @@ public class AttributeContainer extends HBox {
             HBox.setHgrow(tf, Priority.ALWAYS);
             tf.setPromptText("Schemas.SCHEMA_NAME.Tables.TABLE_NAME");
             this.getChildren().add(tf);
+        } else if (attribute.getType().equalsIgnoreCase(JSON.getType())) {
+            TextArea ta = new TextArea("{\n}");
+            setMinHeight(150);
+            HBox.setHgrow(ta, Priority.ALWAYS);
+            this.getChildren().add(ta);
         } else if (attribute.getType().equalsIgnoreCase(FILE_PATH.getType())
                 || attribute.getType().equalsIgnoreCase(FOLDER_PATH.getType())) {
             TextField tf = new TextField();
@@ -124,6 +127,7 @@ public class AttributeContainer extends HBox {
         ObservableList<Node> list = this.getChildren();
         if (list.get(1) instanceof Label) attributeValueString = ((Label) list.get(1)).getText();
         else if (list.get(1) instanceof TextField) attributeValueString = ((TextField) list.get(1)).getText();
+        else if (list.get(1) instanceof TextArea) attributeValueString = ((TextArea) list.get(1)).getText();
         else if (list.get(1) instanceof ComboBox)
             attributeValueString = ((ComboBox) list.get(1)).getValue().toString();
         attributeValueString = "=\"" + attributeValueString + "\"";
