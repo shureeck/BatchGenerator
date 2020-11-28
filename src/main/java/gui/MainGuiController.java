@@ -22,6 +22,7 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 
 import static javafx.stage.Modality.APPLICATION_MODAL;
@@ -104,18 +105,17 @@ public class MainGuiController {
             if (sctsView.isSelected()) {
                 printBatch.clear();
                 if (newCLIScript == null) newCLIScript = new ArrayList<>();
-                else save.setDisable(false);
+                save.setDisable(false);
                 newCLIScript.add(controller.getNewCLICommand());
                 for (NewCLICommand tmp : newCLIScript) {
                     printBatch.appendText(tmp.toString() + "\n");
                 }
             } else {
                 if (document == null) initDocument();
-                else save.setDisable(false);
+                save.setDisable(false);
                 setCommandNode(controller.getCommandNode());
             }
         }
-
     }
 
     @FXML
@@ -161,26 +161,42 @@ public class MainGuiController {
 
     @FXML
     private void onSaveClick() {
-        if (sctsView.isSelected()) {
-        } else {
-        }
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
-        fileChooser.setInitialFileName("batch.xml");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML", "*.xml"));
+        if (sctsView.isSelected()) {
+            fileChooser.setInitialFileName("batch.scts");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("SCTS", "*.scts"));
+        } else {
+            fileChooser.setInitialFileName("batch.xml");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML", "*.xml"));
+        }
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         File file = fileChooser.showSaveDialog(stage);
-        if (file != null && document != null) {
-            try {
-                Transformer transformer = TransformerFactory.newInstance().newTransformer();
-                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-                transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-                StreamResult result = new StreamResult(file);
-                DOMSource source = new DOMSource(document);
-                transformer.transform(source, result);
-            } catch (TransformerException e) {
-                e.printStackTrace();
+        if (sctsView.isSelected()) {
+            if (file != null && newCLIScript != null) {
+                StringBuilder builder = new StringBuilder();
+                for (NewCLICommand command : newCLIScript) {
+                    builder.append(command.toString() + "\n");
+                }
+                try {
+                    Files.write(file.toPath(), builder.toString().getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            if (file != null && document != null) {
+                try {
+                    Transformer transformer = TransformerFactory.newInstance().newTransformer();
+                    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                    transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+                    StreamResult result = new StreamResult(file);
+                    DOMSource source = new DOMSource(document);
+                    transformer.transform(source, result);
+                } catch (TransformerException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -190,9 +206,13 @@ public class MainGuiController {
         if (xmlView.isSelected()) {
             tabPane.setVisible(true);
             newTabPane.setVisible(false);
+            if (document == null) save.setDisable(true);
+            else save.setDisable(false);
         } else {
             tabPane.setVisible(false);
             newTabPane.setVisible(true);
+            if (newCLIScript == null) save.setDisable(true);
+            else save.setDisable(false);
         }
     }
 }
