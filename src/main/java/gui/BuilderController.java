@@ -147,7 +147,7 @@ public class BuilderController {
         buttonHbox.getStyleClass().add("btn-hbox");
         remove.getStyleClass().add("remove-btn");
         Label name = new Label("-" + string.split("=", 2)[0] + ":");
-        Label label = new Label(string.split("=", 2)[1]);
+        Label label = new Label(string.split("=", 2)[1].replace("\"", "'"));
         HBox hBox = new HBox();
         remove.setOnAction(actionEvent -> onRemoveClick(hBox));
 
@@ -171,7 +171,7 @@ public class BuilderController {
             newCLICommand = new NewCLICommand(commandName.getText());
         }
         commandVbox.getChildren().add((commandVbox.getChildren().size() - 1), hBox);
-        newCLICommand.setAttribute(name.getText() + "= " + label.getText());
+        newCLICommand.setAttribute(name.getText() + " " + label.getText());
     }
 
     private void dragDropped(DragEvent event) {
