@@ -1,18 +1,16 @@
 package gui.fxml;
 
 import core.pojo.Attribute;
-import gui.BuilderController;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.text.TextFlow;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -50,6 +48,7 @@ public class AttributeContainer extends HBox {
         } else if (attribute.getType().equalsIgnoreCase(STRING.getType())) {
             if (attribute.getValues() == null || attribute.getValues().isEmpty()) {
                 TextField tf = new TextField();
+                tf.focusedProperty().addListener((observableValue, aBoolean, t1) -> onInputStart());
                 HBox.setHgrow(tf, Priority.ALWAYS);
                 this.getChildren().add(tf);
             } else {
@@ -62,17 +61,20 @@ public class AttributeContainer extends HBox {
             }
         } else if (attribute.getType().equalsIgnoreCase(SCHEMA_PATH.getType())) {
             TextField tf = new TextField();
+            tf.focusedProperty().addListener((observableValue, aBoolean, t1) -> onInputStart());
             HBox.setHgrow(tf, Priority.ALWAYS);
             tf.setPromptText("Schemas.SCHEMA_NAME.Tables.TABLE_NAME");
             this.getChildren().add(tf);
         } else if (attribute.getType().equalsIgnoreCase(JSON.getType())) {
             TextArea ta = new TextArea("{\n}");
+            ta.focusedProperty().addListener((observableValue, aBoolean, t1) -> onInputStart());
             setMinHeight(150);
             HBox.setHgrow(ta, Priority.ALWAYS);
             this.getChildren().add(ta);
         } else if (attribute.getType().equalsIgnoreCase(FILE_PATH.getType())
                 || attribute.getType().equalsIgnoreCase(FOLDER_PATH.getType())) {
             TextField tf = new TextField();
+            tf.focusedProperty().addListener((observableValue, aBoolean, t1) -> onInputStart());
             HBox.setHgrow(tf, Priority.ALWAYS);
             this.getChildren().add(tf);
             Button browseBtn = new Button("Browse");
@@ -84,7 +86,10 @@ public class AttributeContainer extends HBox {
                     Stage stage = new Stage();
                     stage.initModality(Modality.APPLICATION_MODAL);
                     File file = fileChooser.showOpenDialog(stage);
-                    if (file != null) tf.setText(file.getAbsolutePath());
+                    if (file != null) {
+                        tf.setText(file.getAbsolutePath());
+                        onInputStart();
+                    }
                 });
             } else {
                 browseBtn.setOnAction(actionEvent -> {
@@ -93,11 +98,15 @@ public class AttributeContainer extends HBox {
                     Stage stage = new Stage();
                     stage.initModality(Modality.APPLICATION_MODAL);
                     File file = fileChooser.showDialog(stage);
-                    if (file != null) tf.setText(file.getAbsolutePath());
+                    if (file != null) {
+                        tf.setText(file.getAbsolutePath());
+                        onInputStart();
+                    }
                 });
             }
         } else {
             TextField tf = new TextField();
+            tf.focusedProperty().addListener((observableValue, aBoolean, t1) -> onInputStart());
             HBox.setHgrow(tf, Priority.ALWAYS);
             this.getChildren().add(tf);
         }
@@ -105,6 +114,10 @@ public class AttributeContainer extends HBox {
 
     public void dragDetected(MouseEvent event) {
         String attributeValueString = getAttributeString();
+        if (attributeValueString.isEmpty() || attributeValueString.matches("[{]\n*[}]")) {
+            this.setStyle("-fx-background-color: #FFCCCC;");
+            return;
+        }
         String attributeNameLabel = attribute.getName();
         Dragboard dragboard = this.startDragAndDrop(TransferMode.COPY_OR_MOVE);
         ClipboardContent content = new ClipboardContent();
@@ -137,6 +150,10 @@ public class AttributeContainer extends HBox {
 
     public String getAttributeName() {
         return attribute.getName();
+    }
+
+    public void onInputStart() {
+        this.setStyle("");
     }
 
 }

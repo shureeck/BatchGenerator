@@ -219,6 +219,10 @@ public class BuilderController {
         if (event.getButton().equals(MouseButton.PRIMARY)) {
             if (event.getClickCount() == 2) {
                 AttributeContainer container = ((AttributeContainer) event.getSource());
+                if (container.getAttributeString().isEmpty() || container.getAttributeString().matches("[{]\n*[}]")) {
+                    container.setStyle("-fx-background-color: #FFCCCC;");
+                    return;
+                }
                 if (isNewCLI) {
                     fillNewCommand(container.getAttributeName() + "=" + container.getAttributeString());
                     if (newCLICommand != null) {
@@ -265,8 +269,10 @@ public class BuilderController {
             }
         }
         for (int i = 0; i < attributeListVbox.getChildren().size(); i++) {
-            if (((AttributeContainer) attributeListVbox.getChildren().get(i)).getAttributeName().equals(label.getText())) {
-                ((AttributeContainer) attributeListVbox.getChildren().get(i)).setDisable(false);
+            String attributeName = label.getText().matches("-.+:")
+                    ? label.getText().substring(1, label.getText().length() - 1) : label.getText();
+            if (((AttributeContainer) attributeListVbox.getChildren().get(i)).getAttributeName().equals(attributeName)) {
+                (attributeListVbox.getChildren().get(i)).setDisable(false);
             }
         }
         commandVbox.getChildren().remove(hBox);
