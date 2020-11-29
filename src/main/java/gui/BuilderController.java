@@ -108,8 +108,10 @@ public class BuilderController {
         buttonHbox.minWidth(Double.MAX_VALUE);
         buttonHbox.getStyleClass().add("btn-hbox");
         remove.getStyleClass().add("remove-btn");
+        String value = string.split("=", 2)[1];
         Label name = new Label(string.split("=", 2)[0]);
-        Label label = new Label(string.split("=", 2)[1]);
+        Label label = new Label("\"" + value + "\"");
+
         HBox hBox = new HBox();
         remove.setOnAction(actionEvent -> onRemoveClick(hBox));
 
@@ -136,21 +138,21 @@ public class BuilderController {
             commandNode = document.createElement(commandName.getText());
         }
         commandVbox.getChildren().add((commandVbox.getChildren().size() - 1), hBox);
-        ((Element) commandNode).setAttribute(name.getText(), label.getText().substring(1, (label.getText().length() - 1)));
+        ((Element) commandNode).setAttribute(name.getText(), value);
     }
 
     public void fillNewCommand(String string) {
         Button remove = new Button();
         HBox buttonHbox = new HBox(remove);
         HBox.setHgrow(buttonHbox, Priority.ALWAYS);
-        buttonHbox.minWidth(Double.MAX_VALUE);
+
+
         buttonHbox.getStyleClass().add("btn-hbox");
         remove.getStyleClass().add("remove-btn");
+
         Label name = new Label("-" + string.split("=", 2)[0] + ":");
-        String value = string.split("=", 2)[1].startsWith("\"{")
-                ? string.split("=", 2)[1].replace("\"{", "{").replace("}\"", "}")
-                : string.split("=", 2)[1].replace("\"", "'");
-        Label label = new Label(value);
+        String value = string.split("=", 2)[1];
+        Label label = new Label(value.startsWith("{") && value.endsWith("}") ? value : "'" + value + "'");
         HBox hBox = new HBox();
         remove.setOnAction(actionEvent -> onRemoveClick(hBox));
 
@@ -218,12 +220,12 @@ public class BuilderController {
             if (event.getClickCount() == 2) {
                 AttributeContainer container = ((AttributeContainer) event.getSource());
                 if (isNewCLI) {
-                    fillNewCommand(container.getAttributeName() + container.getAttributeString());
+                    fillNewCommand(container.getAttributeName() + "=" + container.getAttributeString());
                     if (newCLICommand != null) {
                         addBtn.setDisable(false);
                     }
                 } else {
-                    fillCommand(container.getAttributeName() + container.getAttributeString());
+                    fillCommand(container.getAttributeName() + "=" + container.getAttributeString());
                     if (commandNode != null) {
                         addBtn.setDisable(false);
                     }

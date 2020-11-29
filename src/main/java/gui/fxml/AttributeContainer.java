@@ -108,7 +108,7 @@ public class AttributeContainer extends HBox {
         String attributeNameLabel = attribute.getName();
         Dragboard dragboard = this.startDragAndDrop(TransferMode.COPY_OR_MOVE);
         ClipboardContent content = new ClipboardContent();
-        content.putString(attributeNameLabel + attributeValueString);
+        content.putString(attributeNameLabel + "=" + attributeValueString);
         dragboard.setContent(content);
         event.consume();
     }
@@ -127,10 +127,11 @@ public class AttributeContainer extends HBox {
         ObservableList<Node> list = this.getChildren();
         if (list.get(1) instanceof Label) attributeValueString = ((Label) list.get(1)).getText();
         else if (list.get(1) instanceof TextField) attributeValueString = ((TextField) list.get(1)).getText();
-        else if (list.get(1) instanceof TextArea) attributeValueString = ((TextArea) list.get(1)).getText();
-        else if (list.get(1) instanceof ComboBox)
+        else if (list.get(1) instanceof TextArea) {
+            attributeValueString = ((TextArea) list.get(1)).getText();
+            return attributeValueString;
+        } else if (list.get(1) instanceof ComboBox)
             attributeValueString = ((ComboBox) list.get(1)).getValue().toString();
-        attributeValueString = "=\"" + attributeValueString + "\"";
         return attributeValueString;
     }
 
