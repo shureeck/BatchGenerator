@@ -1,10 +1,7 @@
 package gui.fxml;
 
 import core.pojo.Command;
-import gui.BuilderController;
 import gui.MainGuiController;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -12,14 +9,18 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import logger.LogUtils;
 
 import java.util.ArrayList;
+
+import static logger.LogMessages.*;
 
 public class TabControl extends Tab {
 
     private ArrayList<Command> commands;
 
     public TabControl(String title) {
+        LogUtils.info(String.format(NEW_TAB_CREATED, title));
         Label label = new Label(title);
         label.setRotate(90);
         StackPane stackPane = new StackPane(new Group(label));
@@ -32,6 +33,7 @@ public class TabControl extends Tab {
         ScrollPane scrollPane = new ScrollPane();
         this.commands = commands;
         for (Command command : commands) {
+            LogUtils.info(String.format(COMMAND_ADDED, command.getName()));
             Hyperlink hyperlink = new Hyperlink(command.getName());
             hyperlink.setOnAction(actionEvent -> controller.onCommandClick(command));
             vBox.getChildren().add(hyperlink);

@@ -15,6 +15,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import logger.LogUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -22,6 +23,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.util.Objects;
+
+import static logger.LogMessages.*;
 
 public class BuilderController {
     private Command command;
@@ -57,6 +60,7 @@ public class BuilderController {
         commandVbox.setOnDragOver(this::dragOver);
         commandVbox.setOnDragDropped(this::dragDropped);
         addBtn.setDisable(true);
+        LogUtils.info(COMMAND_BUILDER_STARTED);
     }
 
     public void setCommand(Command command) {
@@ -90,7 +94,6 @@ public class BuilderController {
         for (int i = 0; i < attributeListVbox.getChildren().size(); i++) {
             attributeListVbox.getChildren().get(i).setOnMouseClicked(this::doubleClick);
         }
-
     }
 
     private void dragOver(DragEvent event) {
@@ -188,6 +191,7 @@ public class BuilderController {
             } else {
                 fillCommand(dragboard.getString());
             }
+            LogUtils.info(String.format(ATTRIBUTE_ADDED, dragboard.getString()));
             event.setDropCompleted(true);
         } else {
             event.setDropCompleted(false);
@@ -199,11 +203,13 @@ public class BuilderController {
     }
 
     public void onAddButtonClick(Event event) {
+        LogUtils.info(ADD_BUTTON_CLICKED);
         addButtonClick = true;
         onButtonCancelClick(event);
     }
 
     public void onButtonCancelClick(Event event) {
+        if (!isAddButtonClick()) LogUtils.info(CANCEL_BUTTON_CLICKED);
         cancelBtn.getScene().getWindow().hide();
     }
 
@@ -219,8 +225,10 @@ public class BuilderController {
         if (event.getButton().equals(MouseButton.PRIMARY)) {
             if (event.getClickCount() == 2) {
                 AttributeContainer container = ((AttributeContainer) event.getSource());
+                LogUtils.info(DOUBLE_CLICK_ON + container.getAttributeName());
                 if (container.getAttributeString().isEmpty() || container.getAttributeString().matches("[{]\n*[}]")) {
                     container.setStyle("-fx-background-color: #FFCCCC;");
+                    LogUtils.error(ATTR_IS_NOT_FILLED);
                     return;
                 }
                 if (isNewCLI) {
@@ -234,6 +242,7 @@ public class BuilderController {
                         addBtn.setDisable(false);
                     }
                 }
+                LogUtils.info(String.format(ATTRIBUTE_ADDED, container.getAttributeName() + "=" + container.getAttributeString()));
                 container.setDisable(true);
 
             }
@@ -250,6 +259,7 @@ public class BuilderController {
 
     public void onRemoveClick(HBox hBox) {
         Label label = (Label) hBox.getChildren().get(0);
+        LogUtils.info(String.format(REMOVE_ATTRIBUTE, label.getText()));
         if (isNewCLI) {
             for (String tmp : newCLICommand.getAttributes()) {
                 if (tmp.split(":")[0].equals(label.getText().substring(0, label.getText().length() - 1))) {

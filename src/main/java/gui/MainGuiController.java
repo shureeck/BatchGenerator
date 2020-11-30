@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import logger.LogUtils;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,6 +27,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 
 import static javafx.stage.Modality.APPLICATION_MODAL;
+import static logger.LogMessages.*;
 
 public class MainGuiController {
 
@@ -52,6 +54,7 @@ public class MainGuiController {
 
     @FXML
     private void initialize() {
+        sctsView.setSelected(true);
         tabPane.getTabs().clear();
         SplitPane.Divider divider = splitPaneA.getDividers().get(0);
         divider.positionProperty().addListener((observable, oldvalue, newvalue) -> divider.setPosition(0.7));
@@ -77,10 +80,12 @@ public class MainGuiController {
         }
         printBatch.setEditable(false);
         if (document == null) save.setDisable(true);
+        LogUtils.info(GUI_STARTED);
     }
 
     @FXML
     public void onCommandClick(Command command) {
+        LogUtils.info(CLICKED_ON_COMMAND + command.getName());
         BuilderController controller;
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
@@ -107,6 +112,7 @@ public class MainGuiController {
                 if (newCLIScript == null) newCLIScript = new ArrayList<>();
                 save.setDisable(false);
                 newCLIScript.add(controller.getNewCLICommand());
+                LogUtils.info(String.format(NEW_COMMAND_ADDED, command.getName()));
                 for (NewCLICommand tmp : newCLIScript) {
                     printBatch.appendText(tmp.toString() + "\n");
                 }
@@ -114,6 +120,7 @@ public class MainGuiController {
                 if (document == null) initDocument();
                 save.setDisable(false);
                 setCommandNode(controller.getCommandNode());
+                LogUtils.info(String.format(NEW_COMMAND_ADDED, command.getName()));
             }
         }
     }
@@ -156,11 +163,13 @@ public class MainGuiController {
 
     @FXML
     private void onCancelClick() {
+        LogUtils.info(APP_CLOSED);
         System.exit(0);
     }
 
     @FXML
     private void onSaveClick() {
+        LogUtils.info(SAVE_BUTTON_CLICKED);
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
         if (sctsView.isSelected()) {
@@ -182,6 +191,8 @@ public class MainGuiController {
                 try {
                     Files.write(file.toPath(), builder.toString().getBytes());
                 } catch (IOException e) {
+                    LogUtils.error(e.getMessage());
+                    LogUtils.error(e.getStackTrace());
                     e.printStackTrace();
                 }
             }
@@ -195,20 +206,26 @@ public class MainGuiController {
                     DOMSource source = new DOMSource(document);
                     transformer.transform(source, result);
                 } catch (TransformerException e) {
+                    LogUtils.error(e.getMessage());
+                    LogUtils.error(e.getStackTrace());
                     e.printStackTrace();
                 }
             }
         }
+        if (file != null) LogUtils.info(String.format(FILE_SAVED, file.getAbsolutePath()));
+        else LogUtils.info(SAVE_DIALOG_CANCELED);
     }
 
     @FXML
     public void onVieMenuItemClick() {
         if (xmlView.isSelected()) {
+            LogUtils.info(VIEW_CHANGED + "XML View");
             tabPane.setVisible(true);
             newTabPane.setVisible(false);
             if (document == null) save.setDisable(true);
             else save.setDisable(false);
         } else {
+            LogUtils.info(VIEW_CHANGED + "SCTS View");
             tabPane.setVisible(false);
             newTabPane.setVisible(true);
             if (newCLIScript == null) save.setDisable(true);

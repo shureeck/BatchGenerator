@@ -2,8 +2,6 @@ package gui.fxml;
 
 import core.pojo.Attribute;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -15,12 +13,14 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import logger.LogUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static core.AttributeType.*;
+import static logger.LogMessages.*;
 
 public class AttributeContainer extends HBox {
     private Attribute attribute;
@@ -114,11 +114,14 @@ public class AttributeContainer extends HBox {
 
     public void dragDetected(MouseEvent event) {
         String attributeValueString = getAttributeString();
+        String attributeNameLabel = attribute.getName();
+        LogUtils.info(DRAG_DETECTED + attributeNameLabel + "=" + attributeValueString);
         if (attributeValueString.isEmpty() || attributeValueString.matches("[{]\n*[}]")) {
             this.setStyle("-fx-background-color: #FFCCCC;");
+            LogUtils.error(ATTR_IS_NOT_FILLED);
             return;
         }
-        String attributeNameLabel = attribute.getName();
+
         Dragboard dragboard = this.startDragAndDrop(TransferMode.COPY_OR_MOVE);
         ClipboardContent content = new ClipboardContent();
         content.putString(attributeNameLabel + "=" + attributeValueString);
