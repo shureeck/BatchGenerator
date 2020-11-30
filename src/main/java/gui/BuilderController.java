@@ -203,8 +203,14 @@ public class BuilderController {
             event.setDropCompleted(false);
         }
         event.consume();
-        if (commandNode != null) {
-            addBtn.setDisable(false);
+        if (isNewCLI) {
+            if (newCLICommand != null) {
+                addBtn.setDisable(false);
+            }
+        } else {
+            if (commandNode != null) {
+                addBtn.setDisable(false);
+            }
         }
     }
 
@@ -268,7 +274,7 @@ public class BuilderController {
         LogUtils.info(String.format(REMOVE_ATTRIBUTE, label.getText()));
         if (isNewCLI) {
             for (String tmp : newCLICommand.getAttributes()) {
-                if (tmp.split(":")[0].equals(label.getText().substring(0, label.getText().length() - 1))) {
+                if (tmp.split(":")[0].equals(label.getText().substring(0, label.getText().trim().length() - 1))) {
                     newCLICommand.getAttributes().remove(tmp);
                     break;
                 }
@@ -285,8 +291,8 @@ public class BuilderController {
             }
         }
         for (int i = 0; i < attributeListVbox.getChildren().size(); i++) {
-            String attributeName = label.getText().matches("-.+:")
-                    ? label.getText().substring(1, label.getText().length() - 1) : label.getText();
+            String attributeName = label.getText().trim().matches("-.+:")
+                    ? label.getText().trim().substring(1, label.getText().trim().length() - 1) : label.getText();
             if (((AttributeContainer) attributeListVbox.getChildren().get(i)).getAttributeName().equals(attributeName)) {
                 (attributeListVbox.getChildren().get(i)).setDisable(false);
             }
