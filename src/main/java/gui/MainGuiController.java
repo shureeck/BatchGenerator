@@ -222,14 +222,37 @@ public class MainGuiController {
             LogUtils.info(VIEW_CHANGED + "XML View");
             tabPane.setVisible(true);
             newTabPane.setVisible(false);
+            printBatch.clear();
             if (document == null) save.setDisable(true);
-            else save.setDisable(false);
+            else {
+                save.setDisable(false);
+
+                String xmlString = "";
+                try {
+                    Transformer transformer = TransformerFactory.newInstance().newTransformer();
+                    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                    transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+                    StreamResult result = new StreamResult(new StringWriter());
+                    DOMSource source = new DOMSource(document);
+                    transformer.transform(source, result);
+                    xmlString = result.getWriter().toString();
+                } catch (TransformerException e) {
+                    e.printStackTrace();
+                }
+                printBatch.setText(xmlString);
+            }
         } else {
             LogUtils.info(VIEW_CHANGED + "SCTS View");
             tabPane.setVisible(false);
             newTabPane.setVisible(true);
+            printBatch.clear();
             if (newCLIScript == null) save.setDisable(true);
-            else save.setDisable(false);
+            else {
+                save.setDisable(false);
+                for (NewCLICommand tmp : newCLIScript) {
+                    printBatch.appendText(tmp.toString() + "\n");
+                }
+            }
         }
     }
 }
