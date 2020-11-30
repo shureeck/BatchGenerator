@@ -22,7 +22,10 @@
 .label, .text-area{
     -fx-font-size: 14px;
 }
-
+.command{
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+}
 .label-attr-command{
     -fx-text-fill: violet;
 }

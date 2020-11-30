@@ -20,16 +20,25 @@
       <children>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.margin="$x3" VBox.vgrow="ALWAYS">
           <children>
-            <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
               <children>
-                <Label fx:id="commandName" text="NewProjectCommand">
-                  <font>
-                    <Font name="System Bold" size="18.0" />
-                  </font>
-                  <VBox.margin>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x2" />
-                  </VBox.margin>
-                </Label>
+                <HBox maxHeight="40.0" minHeight="40.0" prefHeight="40.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                  <children>
+                    <Label fx:id="commandName" text="NewProjectCommand">
+                      <font>
+                        <Font name="System Bold" size="18.0" />
+                      </font>
+                    </Label>
+                    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                      <children>
+                        <Button fx:id="addChecked" font="$x1" mnemonicParsing="false" onAction="#addChecked" prefHeight="30.0" prefWidth="105.0" text="Add selected" textAlignment="LEFT" />
+                      </children>
+                      <padding>
+                        <Insets right="10.0" />
+                      </padding>
+                    </HBox>
+                  </children>
+                </HBox>
                 <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                   <content>
                     <VBox fx:id="attributeListVbox" fillWidth="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" />
@@ -42,7 +51,7 @@
             </VBox>
           </children>
         </AnchorPane>
-        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="800.0" VBox.margin="$x3" VBox.vgrow="ALWAYS">
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
           <children>
             <ScrollPane fitToWidth="false" hbarPolicy="AS_NEEDED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" pannable="false" prefHeight="-1.0" prefWidth="-1.0" vbarPolicy="AS_NEEDED" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <content>
@@ -54,6 +63,9 @@
               </content>
             </ScrollPane>
           </children>
+          <VBox.margin>
+            <Insets fx:id="x3" />
+          </VBox.margin>
         </AnchorPane>
       </children>
     </VBox>

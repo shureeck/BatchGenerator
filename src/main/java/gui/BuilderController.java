@@ -4,11 +4,13 @@ import core.NewCLICommand;
 import core.pojo.Attribute;
 import core.pojo.Command;
 import gui.fxml.AttributeContainer;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.*;
@@ -38,6 +40,8 @@ public class BuilderController {
     private Button addBtn = new Button();
     @FXML
     private Button cancelBtn = new Button();
+    @FXML
+    private Button addChecked = new Button();
 
     private org.w3c.dom.Node commandNode;
     private NewCLICommand newCLICommand;
@@ -66,6 +70,7 @@ public class BuilderController {
     public void setCommand(Command command) {
         this.command = command;
         commandName.setText(command.getName());
+        this.commandName.getStyleClass().add("command");
         if (Objects.nonNull(command.getAttributes())) {
             for (Attribute attribute : command.getAttributes()) {
                 attributeListVbox.getChildren().add(attribute.getAttributeContainer());
@@ -92,7 +97,8 @@ public class BuilderController {
         addBtn.setOnAction(this::onAddButtonClick);
         cancelBtn.setOnAction(this::onButtonCancelClick);
         for (int i = 0; i < attributeListVbox.getChildren().size(); i++) {
-            attributeListVbox.getChildren().get(i).setOnMouseClicked(this::doubleClick);
+            ((AttributeContainer) attributeListVbox.getChildren().get(i)).getChildren().get(0)
+                    .setOnMouseClicked(this::doubleClick);
         }
     }
 
@@ -153,7 +159,7 @@ public class BuilderController {
         buttonHbox.getStyleClass().add("btn-hbox");
         remove.getStyleClass().add("remove-btn");
 
-        Label name = new Label("-" + string.split("=", 2)[0] + ":");
+        Label name = new Label("-" + string.split("=", 2)[0] + ": ");
         String value = string.split("=", 2)[1].replace("\\", "\\\\");
         Label label = new Label(value.startsWith("{") && value.endsWith("}") ? value : "'" + value + "'");
         HBox hBox = new HBox();
@@ -179,7 +185,7 @@ public class BuilderController {
             newCLICommand = new NewCLICommand(commandName.getText());
         }
         commandVbox.getChildren().add((commandVbox.getChildren().size() - 1), hBox);
-        newCLICommand.setAttribute(name.getText() + " " + label.getText());
+        newCLICommand.setAttribute(name.getText() + label.getText());
     }
 
     private void dragDropped(DragEvent event) {
@@ -224,7 +230,7 @@ public class BuilderController {
     public void doubleClick(MouseEvent event) {
         if (event.getButton().equals(MouseButton.PRIMARY)) {
             if (event.getClickCount() == 2) {
-                AttributeContainer container = ((AttributeContainer) event.getSource());
+                AttributeContainer container = (AttributeContainer) ((CheckBox) event.getSource()).getParent();
                 LogUtils.info(DOUBLE_CLICK_ON + container.getAttributeName());
                 if (container.getAttributeString().isEmpty() || container.getAttributeString().matches("[{]\n*[}]")) {
                     container.setStyle("-fx-background-color: #FFCCCC;");
@@ -288,4 +294,35 @@ public class BuilderController {
         commandVbox.getChildren().remove(hBox);
         if (commandVbox.getChildren().size() == 2) commandVbox.getChildren().clear();
     }
+
+    public void addChecked() {
+        ObservableList<javafx.scene.Node> attributes = attributeListVbox.getChildren();
+        for (int i = 0; i < attributes.size(); i++) {
+            AttributeContainer container = (AttributeContainer) attributes.get(i);
+            CheckBox chb = (CheckBox) container.getChildren().get(0);
+            if (chb.isSelected() && !container.isDisabled()) {
+                if (container.getAttributeString().isEmpty() || container.getAttributeString().matches("[{]\n*[}]")) {
+                    container.setStyle("-fx-background-color: #FFCCCC;");
+                    LogUtils.error(ATTR_IS_NOT_FILLED);
+                } else {
+                    if (isNewCLI) {
+                        fillNewCommand(container.getAttributeName() + "=" + container.getAttributeString());
+                        if (newCLICommand != null) {
+                            addBtn.setDisable(false);
+                        }
+                    } else {
+                        fillCommand(container.getAttributeName() + "=" + container.getAttributeString());
+                        if (commandNode != null) {
+                            addBtn.setDisable(false);
+                        }
+                    }
+                    LogUtils.info(String.format(ATTRIBUTE_ADDED, container.getAttributeName() + "=" + container.getAttributeString()));
+                    container.setDisable(true);
+                }
+
+            }
+        }
+
+    }
+
 }

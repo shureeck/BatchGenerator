@@ -4,6 +4,7 @@ import core.pojo.Attribute;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
@@ -27,9 +28,14 @@ public class AttributeContainer extends HBox {
 
     public AttributeContainer(Attribute attribute) {
         this.attribute = attribute;
-        Label attrName = new Label(this.attribute.getName() + "=");
-        attrName.getStyleClass().add("label-attribute");
-        this.getChildren().add(attrName);
+        CheckBox checkBox = new CheckBox(this.attribute.getName() + "=");
+        checkBox.setOnDragDetected(this::dragDetected);
+        checkBox.setOnDragDone(this::dragDone);
+        checkBox.setSelected(true);
+        //Label attrName = new Label(this.attribute.getName() + "=");
+        checkBox.getStyleClass().add("label-attribute");
+        this.getChildren().add(checkBox);
+        //this.getChildren().add(attrName);
         setField();
         getStyleClass().add("hbox-attribute");
         setOnDragDetected(this::dragDetected);
@@ -136,6 +142,10 @@ public class AttributeContainer extends HBox {
             this.setDisable(true);
         }
         event.consume();
+    }
+
+    public void setOnMouseClick(EventHandler event) {
+        this.getChildren().get(0).setOnMouseClicked(event);
     }
 
     public String getAttributeString() {

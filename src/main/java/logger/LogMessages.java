@@ -15,7 +15,7 @@ public class LogMessages {
     public static final String REMOVE_ATTRIBUTE = "Attribute [%s] ahs been removed";
     public static final String ATTR_IS_NOT_FILLED = "Attribute value is not filled";
     public static final String ATTRIBUTE_ADDED = "Attribute [%s] has been added";
-    public static final String DOUBLE_CLICK_ON = "Double clock on ";
+    public static final String DOUBLE_CLICK_ON = "Double click on ";
     public static final String DRAG_DETECTED = "Drag detected on ";
     public static final String FILE_READ = "File [%s] has been read";
     public static final String NEW_TAB_CREATED = "New tab [%s] created";
