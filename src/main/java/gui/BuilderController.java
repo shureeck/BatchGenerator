@@ -154,7 +154,7 @@ public class BuilderController {
         remove.getStyleClass().add("remove-btn");
 
         Label name = new Label("-" + string.split("=", 2)[0] + ":");
-        String value = string.split("=", 2)[1];
+        String value = string.split("=", 2)[1].replace("\\", "\\\\");
         Label label = new Label(value.startsWith("{") && value.endsWith("}") ? value : "'" + value + "'");
         HBox hBox = new HBox();
         remove.setOnAction(actionEvent -> onRemoveClick(hBox));
