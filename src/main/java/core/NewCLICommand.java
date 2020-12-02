@@ -27,4 +27,6 @@ public class NewCLICommand {
     public ArrayList<String> getAttributes() {
         return attributes;
     }
+
+    public String getName(){return name;}
 }

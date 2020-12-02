@@ -8,7 +8,6 @@
 .hyperlink{
     -fx-font-size: 18px;
 }
-
 .hbox-attribute{
     -fx-padding: 5 5 5 5;
     -fx-font-size: 14px;
@@ -41,16 +40,36 @@
 .text-area{
     -fx-text-fill: blue;
 }
-.remove-btn{
-    -fx-background-image: url("Icon_Remove.png");
-    -fx-background-repeat: no-repeat;
+.remove-btn, .down-btn, .up-btn, .edit-btn{
+     -fx-background-repeat: no-repeat;
     -fx-background-size: auto;
     -fx-background-position: center;
     -fx-pref-height: 20px;
     -fx-pref-width: 20px;
 }
+
+.remove-btn{
+    -fx-background-image: url("Icon_Remove.png");
+}
+.down-btn{
+    -fx-background-image: url("Icon_Down.png");
+}
+.edit-btn{
+    -fx-background-image: url("Icon_Edit.png");
+}
+.up-btn{
+    -fx-background-image: url("Icon_Up.png");
+}
 .btn-hbox{
     -fx-hgrow-policy: always;
     -fx-alignment: CENTER_RIGHT;
     -fx-padding: 0 20 0 0;
+}
+.text-edit{
+    -fx-font-size: 14px;
+    -fx-fill: blue;
+
+}
+.text-flow{
+    -fx-background-color: white;
 }

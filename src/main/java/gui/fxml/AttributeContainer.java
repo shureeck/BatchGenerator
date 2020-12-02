@@ -91,7 +91,7 @@ public class AttributeContainer extends HBox {
                     fileChooser.setInitialDirectory(new File(System.getProperty("user.home"), "AWS Schema Conversion Tool"));
                     Stage stage = new Stage();
                     stage.initModality(Modality.APPLICATION_MODAL);
-                    File file = fileChooser.showOpenDialog(stage);
+                    File file = fileChooser.showSaveDialog(stage);
                     if (file != null) {
                         tf.setText(file.getAbsolutePath());
                         onInputStart();

@@ -5,16 +5,23 @@ import core.NewCLICommand;
 import core.YAMLReader;
 import core.pojo.Command;
 import core.pojo.Group;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logger.LogUtils;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -34,6 +41,9 @@ public class MainGuiController {
     private org.w3c.dom.Node rootNode;
     private org.w3c.dom.Document document;
     private ArrayList<NewCLICommand> newCLIScript;
+    private YAMLReader yamlOld;
+    private YAMLReader yamlNew;
+
     @FXML
     private TabPane tabPane = new TabPane();
     @FXML
@@ -50,6 +60,8 @@ public class MainGuiController {
     private RadioMenuItem xmlView = new RadioMenuItem();
     @FXML
     private RadioMenuItem sctsView = new RadioMenuItem();
+    @FXML
+    private VBox contentVbox = new VBox();
 
 
     @FXML
@@ -62,8 +74,8 @@ public class MainGuiController {
 
         File newCli = new File(Main.class.getClassLoader().getResource("new_cli.yaml").getPath());
 
-        YAMLReader yamlOld = new YAMLReader(old);
-        YAMLReader yamlNew = new YAMLReader(newCli);
+        yamlOld = new YAMLReader(old);
+        yamlNew = new YAMLReader(newCli);
         for (Group group : yamlOld.getGroupList()) {
             tabPane.getTabs().add(group.getTab(this));
         }
@@ -81,6 +93,32 @@ public class MainGuiController {
         printBatch.setEditable(false);
         if (document == null) save.setDisable(true);
         LogUtils.info(GUI_STARTED);
+    }
+
+    private GridPane controlBlockCreation(NewCLICommand newCLICommand) {
+        GridPane grid = new GridPane();
+        Button remove = new Button();
+        Button edit = new Button();
+        Button up = new Button();
+        Button down = new Button();
+
+        remove.getStyleClass().add("remove-btn");
+        edit.getStyleClass().add("edit-btn");
+        up.getStyleClass().add("up-btn");
+        down.getStyleClass().add("down-btn");
+
+        grid.add(remove, 0, 0);
+        grid.add(edit, 0, 1);
+        grid.add(up, 1, 0);
+        grid.add(down, 1, 1);
+        grid.setMaxWidth(44);
+        grid.setMaxHeight(44);
+
+        remove.setOnAction(actionEvent -> onRemoveClick(newCLICommand));
+        up.setOnAction(actionEvent -> MainGuiController.this.onMoveCommand(-1, newCLICommand));
+        down.setOnAction(actionEvent -> onMoveCommand(1, newCLICommand));
+        edit.setOnAction(actionEvent -> onEditClick(newCLICommand));
+        return grid;
     }
 
     @FXML
@@ -109,13 +147,14 @@ public class MainGuiController {
         if (controller.isAddButtonClick()) {
             if (sctsView.isSelected()) {
                 printBatch.clear();
+                contentVbox.getChildren().clear();
+
                 if (newCLIScript == null) newCLIScript = new ArrayList<>();
                 save.setDisable(false);
-                newCLIScript.add(controller.getNewCLICommand());
+                NewCLICommand newCliCommand = controller.getNewCLICommand();
+                newCLIScript.add(newCliCommand);
                 LogUtils.info(String.format(NEW_COMMAND_ADDED, command.getName()));
-                for (NewCLICommand tmp : newCLIScript) {
-                    printBatch.appendText(tmp.toString() + "\n");
-                }
+                writeScript();
             } else {
                 if (document == null) initDocument();
                 save.setDisable(false);
@@ -125,22 +164,43 @@ public class MainGuiController {
         }
     }
 
-    @FXML
-    public void setCommandNode(org.w3c.dom.Node node) {
-        rootNode.appendChild(document.importNode(node, true));
+    private String nodeToString(Node node, boolean omitXMLDecalration) {
         String xmlString = "";
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
             StreamResult result = new StreamResult(new StringWriter());
-            DOMSource source = new DOMSource(document);
+            DOMSource source = new DOMSource(node);
             transformer.transform(source, result);
             xmlString = result.getWriter().toString();
         } catch (TransformerException e) {
             e.printStackTrace();
         }
-        printBatch.setText(xmlString);
+        return xmlString;
+    }
+
+    @FXML
+    public void setCommandNode(org.w3c.dom.Node node) {
+        rootNode.appendChild(document.importNode(node, true));
+        contentVbox.getChildren().clear();
+        for (int i = 0; i < rootNode.getChildNodes().getLength(); i++) {
+            if (rootNode.getChildNodes().item(i) instanceof Element) {
+                String xmlString = nodeToString(rootNode.getChildNodes().item(i), true);
+                TextFlow tf = new TextFlow();
+                Text text = new Text(xmlString);
+                tf.getStyleClass().add("text-flow");
+                text.getStyleClass().add("text-edit");
+
+                tf.getChildren().add(text);
+
+                contentVbox.getChildren().add(tf);
+                contentVbox.requestLayout();
+            }
+
+        }
+
     }
 
     private void initDocument() {
@@ -254,5 +314,95 @@ public class MainGuiController {
                 }
             }
         }
+    }
+
+    public void writeScript() {
+        if (sctsView.isSelected()) {
+            printBatch.clear();
+            contentVbox.getChildren().clear();
+
+            if (newCLIScript == null) newCLIScript = new ArrayList<>();
+            save.setDisable(false);
+
+            for (NewCLICommand tmp : newCLIScript) {
+                HBox hb = new HBox();
+           //     hb.setStyle("-fx-background-color: white; -fx-border-color: #C0C0C0; -fx-border-width: 0 0 1 0;");
+                hb.setAlignment(Pos.CENTER);
+                HBox.setHgrow(hb, Priority.ALWAYS);
+                TextFlow tf = new TextFlow();
+                HBox.setHgrow(tf, Priority.ALWAYS);
+                tf.maxWidth(Double.MAX_VALUE);
+                tf.getStyleClass().add("text-flow");
+                Text text = new Text(tmp.toString());
+                text.getStyleClass().add("text-edit");
+                tf.getChildren().add(text);
+                hb.getChildren().add(tf);
+                hb.getChildren().add(controlBlockCreation(tmp));
+                contentVbox.getChildren().add(hb);
+                contentVbox.requestLayout();
+            }
+
+        }
+    }
+
+    public void onRemoveClick(NewCLICommand newCLICommand) {
+        newCLIScript.remove(newCLICommand);
+        if (newCLIScript.size() == 0) {
+            newCLIScript = null;
+            save.setDisable(true);
+        }
+        writeScript();
+    }
+
+    private void onEditClick(NewCLICommand newCLICommand) {
+        Command command = null;
+        for (Group group : yamlNew.getGroupList()) {
+            command = group.getCommands().stream().filter((p) -> (p.getName().equals(newCLICommand.getName()))).findFirst().orElse(null);
+            if (command != null) break;
+        }
+        BuilderController controller;
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("fxml/bilder.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        controller = loader.getController();
+        controller.setNewCLI(sctsView.isSelected());
+        controller.setCommand(command);
+        controller.setCommandForEdit(newCLICommand);
+        Parent root = loader.getRoot();
+        stage.setTitle("Command builder");
+        stage.setScene(new Scene(root));
+        stage.resizableProperty().setValue(true);
+        stage.getScene().getStylesheets().add((getClass().getResource("/style.css")).toExternalForm());
+        stage.initModality(APPLICATION_MODAL);
+        stage.setResizable(false);
+        stage.showAndWait();
+        if (controller.isAddButtonClick()) {
+            int id = newCLIScript.indexOf(newCLICommand);
+            newCLIScript.remove(id);
+            newCLIScript.add(id, controller.getNewCLICommand());
+        }
+        writeScript();
+    }
+
+
+    public void onMoveCommand(int i, NewCLICommand newCLICommand) {
+        int idx = newCLIScript.indexOf(newCLICommand);
+        if (i > 0) {
+            if ((idx + 1) < newCLIScript.size()) {
+                newCLIScript.remove(newCLICommand);
+                newCLIScript.add((idx + 1), newCLICommand);
+            }
+        } else {
+            if ((idx - 1) >= 0) {
+                newCLIScript.remove(newCLICommand);
+                newCLIScript.add((idx - 1), newCLICommand);
+            }
+        }
+        writeScript();
     }
 }

@@ -102,6 +102,23 @@ public class BuilderController {
         }
     }
 
+    public void setCommandForEdit(NewCLICommand newCLICommand) {
+        addBtn.setText("Update");
+        addBtn.setDisable(false);
+        for (String tmp : newCLICommand.getAttributes()) {
+            String name = tmp.split(": ")[0];
+            name = name.substring(1);
+
+            for (int i = 0; i < attributeListVbox.getChildren().size(); i++) {
+                AttributeContainer container = ((AttributeContainer) attributeListVbox.getChildren().get(i));
+                if (container.getAttributeName().equals(name)) {
+                    container.setDisable(true);
+                    fillNewCommand(name + "=" + container.getAttributeString());
+                }
+            }
+        }
+    }
+
     private void dragOver(DragEvent event) {
         Dragboard dragboard = event.getDragboard();
         if (dragboard.hasString()) {
