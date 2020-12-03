@@ -298,13 +298,19 @@ public class MainGuiController {
             }
         } else {
             if (document != null) {
+                fillContentVbox("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>", null);
+                fillContentVbox("<tree>", null);
+                fillContentVbox("\t<instances>", null);
+                fillContentVbox("\t\t<BatchJob>", null);
                 for (int i = 0; i < rootNode.getChildNodes().getLength(); i++) {
                     if (rootNode.getChildNodes().item(i) instanceof Element) {
                         String xmlString = nodeToString(rootNode.getChildNodes().item(i), true);
-                        fillContentVbox(xmlString, rootNode.getChildNodes().item(i));
+                        fillContentVbox("\t\t\t"+xmlString, rootNode.getChildNodes().item(i));
                     }
-
                 }
+                fillContentVbox("\t\t</BatchJob>", null);
+                fillContentVbox("\t</instances>", null);
+                fillContentVbox("</tree>", null);
             }
         }
     }
@@ -322,7 +328,7 @@ public class MainGuiController {
         text.getStyleClass().add("text-edit");
         tf.getChildren().add(text);
         hb.getChildren().add(tf);
-        hb.getChildren().add(controlBlockCreation(node));
+        if (node != null) hb.getChildren().add(controlBlockCreation(node));
         contentVbox.getChildren().add(hb);
         contentVbox.requestLayout();
     }
