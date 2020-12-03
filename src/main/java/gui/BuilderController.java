@@ -102,18 +102,34 @@ public class BuilderController {
         }
     }
 
-    public void setCommandForEdit(NewCLICommand newCLICommand) {
+    public void setCommandForEdit(Object object) {
         addBtn.setText("Update");
         addBtn.setDisable(false);
-        for (String tmp : newCLICommand.getAttributes()) {
-            String name = tmp.split(": ")[0];
-            name = name.substring(1);
+        if (object instanceof NewCLICommand) {
+            NewCLICommand newCLICommand = (NewCLICommand) object;
+            for (String tmp : newCLICommand.getAttributes()) {
+                String name = tmp.split(": ")[0];
+                name = name.substring(1);
 
-            for (int i = 0; i < attributeListVbox.getChildren().size(); i++) {
-                AttributeContainer container = ((AttributeContainer) attributeListVbox.getChildren().get(i));
-                if (container.getAttributeName().equals(name)) {
-                    container.setDisable(true);
-                    fillNewCommand(name + "=" + container.getAttributeString());
+                for (int i = 0; i < attributeListVbox.getChildren().size(); i++) {
+                    AttributeContainer container = ((AttributeContainer) attributeListVbox.getChildren().get(i));
+                    if (container.getAttributeName().equals(name)) {
+                        container.setDisable(true);
+                        fillNewCommand(name + "=" + container.getAttributeString());
+                    }
+                }
+            }
+        } else {
+            Node node = (Node) object;
+            for (int i = 0; i < node.getAttributes().getLength(); i++) {
+                String name = node.getAttributes().item(i).getNodeName();
+                String value = node.getAttributes().item(i).getNodeValue();
+                for (int j = 0; j < attributeListVbox.getChildren().size(); j++) {
+                    AttributeContainer container = ((AttributeContainer) attributeListVbox.getChildren().get(j));
+                    if (container.getAttributeName().equals(name)) {
+                        container.setDisable(true);
+                        fillCommand(name + "=" + value);
+                    }
                 }
             }
         }
