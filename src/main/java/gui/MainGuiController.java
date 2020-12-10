@@ -13,6 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -63,6 +64,14 @@ public class MainGuiController {
     private RadioMenuItem sctsView = new RadioMenuItem();
     @FXML
     private VBox contentVbox = new VBox();
+    @FXML
+    private Button up = new Button();
+    @FXML
+    private Button down = new Button();
+    @FXML
+    private Button edit = new Button();
+    @FXML
+    private Button remove = new Button();
 
 
     @FXML
@@ -94,6 +103,10 @@ public class MainGuiController {
         printBatch.setEditable(false);
         if (document == null) save.setDisable(true);
         LogUtils.info(GUI_STARTED);
+        remove.setDisable(true);
+        up.setDisable(true);
+        down.setDisable(true);
+        edit.setDisable(true);
     }
 
     private GridPane controlBlockCreation(Object object) {
@@ -305,7 +318,7 @@ public class MainGuiController {
                 for (int i = 0; i < rootNode.getChildNodes().getLength(); i++) {
                     if (rootNode.getChildNodes().item(i) instanceof Element) {
                         String xmlString = nodeToString(rootNode.getChildNodes().item(i), true);
-                        fillContentVbox("\t\t\t"+xmlString, rootNode.getChildNodes().item(i));
+                        fillContentVbox("\t\t\t" + xmlString, rootNode.getChildNodes().item(i));
                     }
                 }
                 fillContentVbox("\t\t</BatchJob>", null);
@@ -317,7 +330,7 @@ public class MainGuiController {
 
     public void fillContentVbox(String string, Object node) {
         HBox hb = new HBox();
-        //     hb.setStyle("-fx-background-color: white; -fx-border-color: #C0C0C0; -fx-border-width: 0 0 1 0;");
+        hb.getStyleClass().add("hbox-focused");
         hb.setAlignment(Pos.CENTER);
         HBox.setHgrow(hb, Priority.ALWAYS);
         TextFlow tf = new TextFlow();
@@ -328,10 +341,35 @@ public class MainGuiController {
         text.getStyleClass().add("text-edit");
         tf.getChildren().add(text);
         hb.getChildren().add(tf);
-        if (node != null) hb.getChildren().add(controlBlockCreation(node));
         contentVbox.getChildren().add(hb);
         contentVbox.requestLayout();
+        hb.setOnMouseClicked(event -> {
+            ((HBox) event.getSource()).requestFocus();
+            remove.setDisable(false);
+            up.setDisable(false);
+            down.setDisable(false);
+            edit.setDisable(false);
+            remove.setOnAction(actionEvent -> {
+                if (node instanceof NewCLICommand) {
+                    onRemoveClick((NewCLICommand) node);
+                } else onRemoveClick((Node) node);
+            });
+            edit.setOnAction(actionEvent -> MainGuiController.this.onEditClick(node));
+            up.setOnAction(actionEvent -> {
+                if (node instanceof NewCLICommand) {
+                    onMoveCommand(-1, (NewCLICommand) node);
+                } else onMoveCommand(-1, (Node) node);
+            });
+            down.setOnAction(actionEvent -> {
+                if (node instanceof NewCLICommand) {
+                    onMoveCommand(1, (NewCLICommand) node);
+                } else onMoveCommand(1, (Node) node);
+            });
+            event.consume();
+        });
+
     }
+
 
     public void onRemoveClick(NewCLICommand newCLICommand) {
         newCLIScript.remove(newCLICommand);
@@ -340,6 +378,11 @@ public class MainGuiController {
             save.setDisable(true);
         }
         writeScript();
+        remove.setDisable(true);
+        up.setDisable(true);
+        down.setDisable(true);
+        edit.setDisable(true);
+
     }
 
     public void onRemoveClick(Node node) {
@@ -349,6 +392,10 @@ public class MainGuiController {
             save.setDisable(true);
         }
         writeScript();
+        remove.setDisable(true);
+        up.setDisable(true);
+        down.setDisable(true);
+        edit.setDisable(true);
     }
 
     private void onEditClick(Object object) {
@@ -392,11 +439,16 @@ public class MainGuiController {
                 int id = newCLIScript.indexOf(object);
                 newCLIScript.remove(id);
                 newCLIScript.add(id, controller.getNewCLICommand());
+
             } else {
                 rootNode.replaceChild(document.importNode(controller.getCommandNode(), true), (Node) object);
             }
         }
         writeScript();
+        remove.setDisable(true);
+        up.setDisable(true);
+        down.setDisable(true);
+        edit.setDisable(true);
     }
 
 
@@ -414,6 +466,7 @@ public class MainGuiController {
             }
         }
         writeScript();
+        contentVbox.getChildren().get(newCLIScript.indexOf(newCLICommand)).requestFocus();
     }
 
     public void onMoveCommand(int i, Node node) {
@@ -433,5 +486,13 @@ public class MainGuiController {
             rootNode.insertBefore(node, rootNode.getChildNodes().item(idx - 1));
         }
         writeScript();
+
+        for (int j = 0; j < rootNode.getChildNodes().getLength(); j++) {
+            if (rootNode.getChildNodes().item(j).equals(node)) {
+                contentVbox.getChildren().get(j + 4).requestFocus();
+                break;
+            }
+
+        }
     }
 }

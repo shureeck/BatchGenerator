@@ -70,6 +70,9 @@
     -fx-fill: blue;
 
 }
+.hbox-focused:focused{
+    -fx-border-color: blue;
+}
 .text-flow{
     -fx-background-color: white;
 }
