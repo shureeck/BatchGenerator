@@ -343,6 +343,7 @@ public class MainGuiController {
         hb.getChildren().add(tf);
         contentVbox.getChildren().add(hb);
         contentVbox.requestLayout();
+
         hb.setOnMouseClicked(event -> {
             ((HBox) event.getSource()).requestFocus();
             remove.setDisable(false);

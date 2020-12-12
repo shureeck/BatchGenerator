@@ -46,15 +46,22 @@
               <children>
                 <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <children>
-                    <VBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="30.0">
+                    <VBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="30.0" HBox.margin="$x2">
                       <children>
-                        <Button fx:id="up" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" styleClass="up-btn" text="" />
-                        <Button fx:id="remove" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" styleClass="remove-btn" text="" />
-                        <Button fx:id="edit" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" styleClass="edit-btn" text="Button" />
-                        <Button fx:id="down" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" styleClass="down-btn" text="" />
+                        <Button fx:id="up" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" styleClass="up-btn" text="">
+                          <VBox.margin>
+                            <Insets bottom="5.0" top="5.0" fx:id="x2" />
+                          </VBox.margin>
+                        </Button>
+                        <Button fx:id="remove" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" styleClass="remove-btn" text="" VBox.margin="$x2" />
+                        <Button fx:id="edit" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" styleClass="edit-btn" text="Button" VBox.margin="$x2" />
+                        <Button fx:id="down" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" styleClass="down-btn" text="" VBox.margin="$x2" />
                       </children>
+                      <padding>
+                        <Insets />
+                      </padding>
                     </VBox>
-                    <ScrollPane fitToWidth="true" prefHeight="205.0" prefWidth="798.0">
+                    <ScrollPane fitToWidth="true" prefHeight="205.0" prefWidth="798.0" HBox.hgrow="ALWAYS">
                       <content>
                         <VBox fx:id="contentVbox" prefHeight="-1.0" prefWidth="-1.0" />
                       </content>

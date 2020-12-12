@@ -109,13 +109,16 @@ public class BuilderController {
             NewCLICommand newCLICommand = (NewCLICommand) object;
             for (String tmp : newCLICommand.getAttributes()) {
                 String name = tmp.split(": ")[0];
+                String value = tmp.split(": ")[1].trim();
+                value = value.replace("\\\\", "\\");
+                value = value.startsWith("{") && value.endsWith("}") ? value : value.substring(1, value.length() - 1);
                 name = name.substring(1);
 
                 for (int i = 0; i < attributeListVbox.getChildren().size(); i++) {
                     AttributeContainer container = ((AttributeContainer) attributeListVbox.getChildren().get(i));
                     if (container.getAttributeName().equals(name)) {
                         container.setDisable(true);
-                        fillNewCommand(name + "=" + container.getAttributeString());
+                        fillNewCommand(name + "=" + value);
                     }
                 }
             }
@@ -361,7 +364,5 @@ public class BuilderController {
 
             }
         }
-
     }
-
 }

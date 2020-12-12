@@ -168,7 +168,6 @@ public class AttributeContainer extends HBox {
     public void onInputStart() {
         this.setStyle("");
     }
-
 }
 
 
