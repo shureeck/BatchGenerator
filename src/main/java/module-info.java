@@ -7,5 +7,6 @@
      requires com.fasterxml.jackson.dataformat.yaml;
      requires org.apache.logging.log4j;
      exports core.pojo;
+     exports core.pojo.settings;
      opens gui;
 }

@@ -9,6 +9,9 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -17,6 +20,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import logger.LogUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -24,8 +28,11 @@ import org.w3c.dom.Node;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
+import static javafx.stage.Modality.APPLICATION_MODAL;
 import static logger.LogMessages.*;
 
 public class BuilderController {
@@ -196,8 +203,9 @@ public class BuilderController {
         remove.getStyleClass().add("remove-btn");
 
         Label name = new Label("-" + string.split("=", 2)[0] + ": ");
-        String value = string.split("=", 2)[1].replace("\\", "\\\\");
-        Label label = new Label(value.startsWith("{") && value.endsWith("}") ? value : "'" + value + "'");
+        String value = string.split("=", 2)[1];
+        Label label = new Label(value.trim().startsWith("{") && value.endsWith("}") ? value
+                : "'" + value.replace("\\", "\\\\") + "'");
         HBox hBox = new HBox();
         remove.setOnAction(actionEvent -> onRemoveClick(hBox));
 
@@ -208,6 +216,7 @@ public class BuilderController {
         hBox.getChildren().add(name);
         hBox.getChildren().add(label);
         hBox.getChildren().add(buttonHbox);
+        hBox.setMinHeight(label.getText().split("\n").length * 22);
 
         if (commandVbox.getChildren().size() == 0) {
             Label openTag = new Label(commandName.getText());

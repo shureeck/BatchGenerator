@@ -2,10 +2,14 @@ package gui.fxml;
 
 import core.pojo.Attribute;
 
+import gui.SettingsController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
@@ -15,12 +19,15 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logger.LogUtils;
+import org.w3c.dom.Text;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static core.AttributeType.*;
+import static javafx.stage.Modality.APPLICATION_MODAL;
 import static logger.LogMessages.*;
 
 public class AttributeContainer extends HBox {
@@ -56,6 +63,7 @@ public class AttributeContainer extends HBox {
                 TextField tf = new TextField();
                 tf.focusedProperty().addListener((observableValue, aBoolean, t1) -> onInputStart());
                 HBox.setHgrow(tf, Priority.ALWAYS);
+
                 this.getChildren().add(tf);
             } else {
                 ObservableList<String> valueList = FXCollections.observableArrayList(attribute.getValues());
@@ -76,7 +84,11 @@ public class AttributeContainer extends HBox {
             ta.focusedProperty().addListener((observableValue, aBoolean, t1) -> onInputStart());
             setMinHeight(150);
             HBox.setHgrow(ta, Priority.ALWAYS);
+            Button btn = new Button();
+            btn.setOnAction(event -> onSettingListClick(ta));
+            btn.getStyleClass().add("list-btn");
             this.getChildren().add(ta);
+            this.getChildren().add(btn);
         } else if (attribute.getType().equalsIgnoreCase(FILE_PATH.getType())
                 || attribute.getType().equalsIgnoreCase(FOLDER_PATH.getType())) {
             TextField tf = new TextField();
@@ -167,6 +179,33 @@ public class AttributeContainer extends HBox {
 
     public void onInputStart() {
         this.setStyle("");
+    }
+
+    public void onSettingListClick(TextArea textArea) {
+        SettingsController controller;
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("settings.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        controller = loader.getController();
+        controller.setTextArea(textArea);
+        Parent root = loader.getRoot();
+        stage.setTitle("Settings");
+        stage.setScene(new Scene(root));
+        stage.resizableProperty().setValue(true);
+        stage.getScene().getStylesheets().add((getClass().getResource("/style.css")).toExternalForm());
+        stage.initModality(APPLICATION_MODAL);
+        stage.setResizable(true);
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
+        stage.showAndWait();
+        if (controller.isAddButtonClick()) {
+
+        }
     }
 }
 

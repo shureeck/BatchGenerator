@@ -84,8 +84,8 @@ public class MainGuiController {
 
         File newCli = new File(Main.class.getClassLoader().getResource("new_cli.yaml").getPath());
 
-        yamlOld = new YAMLReader(old);
-        yamlNew = new YAMLReader(newCli);
+        yamlOld = new YAMLReader(old, Group[].class);
+        yamlNew = new YAMLReader(newCli, Group[].class);
         for (Group group : yamlOld.getGroupList()) {
             tabPane.getTabs().add(group.getTab(this));
         }
