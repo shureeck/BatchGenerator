@@ -65,11 +65,13 @@ public class SettingsController {
     private void onAddButtonClick() {
         String settingTemplate = "\"%s\":\"%s\"";
         Setting setting = settingTable.getSelectionModel().getSelectedItem();
-        String text = textArea.getText();
-        text = text.substring(0, text.length() - 1) + String.format(settingTemplate, setting.getSetting(),
-                setting.getCurrentValue().replace("\\", "\\\\")) + "\n}";
-        textArea.setText(text);
-        textArea.requestLayout();
+        if (setting != null) {
+            String text = textArea.getText();
+            text = text.substring(0, text.length() - 1) + String.format(settingTemplate, setting.getSetting(),
+                    setting.getCurrentValue().replace("\\", "\\\\")) + "\n}";
+            textArea.setText(text);
+            textArea.requestLayout();
+        }
     }
 
 }
