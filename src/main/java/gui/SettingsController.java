@@ -67,9 +67,15 @@ public class SettingsController {
         Setting setting = settingTable.getSelectionModel().getSelectedItem();
         if (setting != null) {
             String text = textArea.getText();
-            text = text.substring(0, text.length() - 1) + String.format(settingTemplate, setting.getSetting(),
-                    setting.getCurrentValue().replace("\\", "\\\\")) + "\n}";
-            textArea.setText(text);
+            text = text.substring(2, text.length() - 2);
+            if (!text.trim().isEmpty()) {
+                text = text.trim() + ",\n" + String.format(settingTemplate, setting.getSetting(),
+                        setting.getCurrentValue().replace("\\", "\\\\"));
+            } else {
+                text = String.format(settingTemplate, setting.getSetting(),
+                        setting.getCurrentValue().replace("\\", "\\\\"));
+            }
+            textArea.setText("'{\n" + text + "\n}'");
             textArea.requestLayout();
         }
     }

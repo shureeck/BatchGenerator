@@ -80,7 +80,7 @@ public class AttributeContainer extends HBox {
             tf.setPromptText("Schemas.SCHEMA_NAME.Tables.TABLE_NAME");
             this.getChildren().add(tf);
         } else if (attribute.getType().equalsIgnoreCase(JSON.getType())) {
-            TextArea ta = new TextArea("{\n}");
+            TextArea ta = new TextArea("'{\n}'");
             ta.focusedProperty().addListener((observableValue, aBoolean, t1) -> onInputStart());
             setMinHeight(150);
             HBox.setHgrow(ta, Priority.ALWAYS);
@@ -134,7 +134,7 @@ public class AttributeContainer extends HBox {
         String attributeValueString = getAttributeString();
         String attributeNameLabel = attribute.getName();
         LogUtils.info(DRAG_DETECTED + attributeNameLabel + "=" + attributeValueString);
-        if (attributeValueString.isEmpty() || attributeValueString.matches("[{]\n*[}]")) {
+        if (attributeValueString.isEmpty() || attributeValueString.matches("['][{]\n*[}][']")) {
             this.setStyle("-fx-background-color: #FFCCCC;");
             LogUtils.error(ATTR_IS_NOT_FILLED);
             return;

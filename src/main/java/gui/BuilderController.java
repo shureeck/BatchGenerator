@@ -204,7 +204,7 @@ public class BuilderController {
 
         Label name = new Label("-" + string.split("=", 2)[0] + ": ");
         String value = string.split("=", 2)[1];
-        Label label = new Label(value.trim().startsWith("{") && value.endsWith("}") ? value
+        Label label = new Label(value.trim().startsWith("'{") && value.endsWith("}'") ? value
                 : "'" + value.replace("\\", "\\\\") + "'");
         HBox hBox = new HBox();
         remove.setOnAction(actionEvent -> onRemoveClick(hBox));
@@ -283,7 +283,7 @@ public class BuilderController {
             if (event.getClickCount() == 2) {
                 AttributeContainer container = (AttributeContainer) ((CheckBox) event.getSource()).getParent();
                 LogUtils.info(DOUBLE_CLICK_ON + container.getAttributeName());
-                if (container.getAttributeString().isEmpty() || container.getAttributeString().matches("[{]\n*[}]")) {
+                if (container.getAttributeString().isEmpty() || container.getAttributeString().matches("['][{]\n*[}][']")) {
                     container.setStyle("-fx-background-color: #FFCCCC;");
                     LogUtils.error(ATTR_IS_NOT_FILLED);
                     return;
@@ -352,7 +352,7 @@ public class BuilderController {
             AttributeContainer container = (AttributeContainer) attributes.get(i);
             CheckBox chb = (CheckBox) container.getChildren().get(0);
             if (chb.isSelected() && !container.isDisabled()) {
-                if (container.getAttributeString().isEmpty() || container.getAttributeString().matches("[{]\n*[}]")) {
+                if (container.getAttributeString().isEmpty() || container.getAttributeString().trim().matches("['][{][\n \t]*[}][']")) {
                     container.setStyle("-fx-background-color: #FFCCCC;");
                     LogUtils.error(ATTR_IS_NOT_FILLED);
                 } else {
