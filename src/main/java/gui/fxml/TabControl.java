@@ -20,6 +20,7 @@ public class TabControl extends Tab {
     private ArrayList<Command> commands;
 
     public TabControl(String title) {
+        setText(title);
         LogUtils.info(String.format(NEW_TAB_CREATED, title));
         Label label = new Label(title);
         label.setRotate(90);
