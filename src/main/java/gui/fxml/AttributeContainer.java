@@ -203,9 +203,6 @@ public class AttributeContainer extends HBox {
         stage.setMinWidth(800);
         stage.setMinHeight(600);
         stage.showAndWait();
-        if (controller.isAddButtonClick()) {
-
-        }
     }
 }
 

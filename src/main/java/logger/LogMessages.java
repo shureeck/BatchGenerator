@@ -20,6 +20,11 @@ public class LogMessages {
     public static final String FILE_READ = "File [%s] has been read";
     public static final String NEW_TAB_CREATED = "New tab [%s] created";
     public static final String COMMAND_ADDED = "Command [%s] added to tab";
+    public static final String SETTINGS_LIST_SHOWN = "Dialog \"Settings list\" has been shown";
+    public static final String TAB_ADDED = "Tab \"%s settings\" initialized";
+    public static final String NO_SETTINGS = "There are no \"%s settings\"";
+    public static final String SETTING_ADDED = "Setting [%s] has been added";
+    public static final String NO_SELECTION = "Nothing selected to add";
 
 
 }

@@ -5,6 +5,13 @@
     -fx-tab-max-height:160px;
     -fx-close-tab-animation: NONE;
 }
+.tab-pane-setting{
+    -fx-tab-min-width:24px;
+    -fx-tab-max-width:160px;
+    -fx-tab-min-height:24px;
+    -fx-tab-max-height:24px;
+    -fx-close-tab-animation: NONE;
+}
 .hyperlink{
     -fx-font-size: 18px;
 }
