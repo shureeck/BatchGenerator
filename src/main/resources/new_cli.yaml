@@ -346,6 +346,7 @@
 - group: "Working with AWS Profile"
   commands:
   - command: "CreateAWSProfile"
+    help: "#_Toc58249058"
     attributes:
     - attribute: "name"
       type: "String"
@@ -358,6 +359,7 @@
     - attribute: "s3Path"
       type: "String"
   - command: "ModifyAWSProfile"
+    help: "#_Toc58249059"
     attributes:
     - attribute: "name"
       type: "String"
@@ -370,16 +372,19 @@
     - attribute: "s3Path"
       type: "String"
   - command: "DeleteAWSProfile"
+    help: "#_Toc58249060"
     attributes:
     - attribute: "name"
       type: "String"
   - command: "SetAWSProfile"
+    help: "#_Toc58249061"
     attributes:
     - attribute: "name"
       type: "String"    
 - group: "Convert / Create report"
   commands:
   - command: "CreateReport"
+    help: "#_Toc58249071"
     attributes:
     - attribute: "treePath"
       type: "SchemaPath"
@@ -388,8 +393,10 @@
     - attribute: "filter"
       type: "String"      
   - command: "CreateServerLevelObjectsReport"
+    help: "#_Toc58249072"
     attributes:
   - command: "SaveReportPDF"
+    help: "#_Toc58249073"
     attributes:
     - attribute: "file"
       type: "FilePath"
@@ -400,6 +407,7 @@
     - attribute: "treePath"
       type: "SchemaPath"
   - command: "SaveReportCSV"
+    help: "#_Toc58249074"
     attributes:
     - attribute: "file"
       type: "FilePath"
@@ -410,14 +418,17 @@
     - attribute: "treePath"
       type: "SchemaPath"
   - command: "SaveServerLevelObjectsReportPDF"
+    help: "#_Toc58249075"
     attributes:
     - attribute: "file"
       type: "FilePath"
   - command: "SaveServerLevelObjectsReportCSV"
+    help: "#_Toc58249076"
     attributes:
     - attribute: "file"
       type: "FilePath"
   - command: "Convert"
+    help: "#_Toc58249078"
     attributes:
     - attribute: "treePath"
       type: "SchemaPath"
