@@ -47,7 +47,7 @@
 .text-area{
     -fx-text-fill: blue;
 }
-.remove-btn, .down-btn, .up-btn, .edit-btn, .list-btn{
+.remove-btn, .down-btn, .up-btn, .edit-btn, .list-btn, .help-btn{
      -fx-background-repeat: no-repeat;
     -fx-background-size: auto;
     -fx-background-position: center;
@@ -71,6 +71,9 @@
 }
 .list-btn{
     -fx-background-image: url("Icon_List.png");
+}
+.help-btn{
+    -fx-background-image: url("Icon_Help.png");
 }
 .btn-hbox{
     -fx-hgrow-policy: always;

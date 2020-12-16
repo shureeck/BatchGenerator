@@ -1,6 +1,7 @@
  module gui {
     requires javafx.fxml;
     requires javafx.controls;
+    requires javafx.web;
     requires javafx.graphics;
      requires java.xml;
      requires com.fasterxml.jackson.databind;

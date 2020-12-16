@@ -3,6 +3,7 @@
   commands:
   - command: "CreateProject"
     old: "NewProjectCommand"
+    help: "#_Toc58249046"
     attributes:
     - attribute: "source"
       old: "sourceVendor"
@@ -69,16 +70,19 @@
       type: "FolderPath"
   - command: "OpenProject"
     old: "OpenProjectCommand"
+    help: "#_Toc58249047"
     attributes:
     - attribute: "file"
       old: "projectFilePath"
       type: "FilePath"
   - command: "SaveProject"
     old: "SaveProjectCommand"
+    help: "#_Toc58249048"
     attributes:
 - group: "Connect"
   commands:
   - command: "ConnectSource"
+    help: "#_Toc58249050"
     old:  "ConnectCommand"
     attributes:
     - attribute: "host"
@@ -186,6 +190,7 @@
       type: "String"
       require: false
   - command: "ConnectTarget"
+    help: "#_Toc58249051"
     old:  "ConnectCommand"
     attributes:
     - attribute: "host"
@@ -295,6 +300,7 @@
 - group: "Load tree"
   commands:
   - command: "LoadSourceTree"
+    help: "#_Toc58249053"
     attributes:
     - attribute: "processMode"
       type: "String"
@@ -302,6 +308,7 @@
       - "MAIN"
       - "EXTENDED"
   - command: "LoadTargetTree"
+    help: "#_Toc58249054"
     attributes:
     - attribute: "processMode"
       type: "String"
@@ -309,6 +316,7 @@
       - "MAIN"
       - "EXTENDED"
   - command: "LoadSourceTreeNode"
+    help: "#_Toc58249055"
     attributes:
     - attribute: "processMode"
       type: "String"
@@ -322,6 +330,7 @@
     - attribute: "namePath"
       type: "SchemaPath"
   - command: "LoadTargetTreeNode"
+    help: "#_Toc58249056"
     attributes:
     - attribute: "processMode"
       type: "String"

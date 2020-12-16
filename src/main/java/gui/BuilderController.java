@@ -10,6 +10,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -49,6 +50,8 @@ public class BuilderController {
     private Button cancelBtn = new Button();
     @FXML
     private Button addChecked = new Button();
+    @FXML
+    private HBox topButtonHbox = new HBox();
 
     private org.w3c.dom.Node commandNode;
     private NewCLICommand newCLICommand;
@@ -106,6 +109,15 @@ public class BuilderController {
         for (int i = 0; i < attributeListVbox.getChildren().size(); i++) {
             ((AttributeContainer) attributeListVbox.getChildren().get(i)).getChildren().get(0)
                     .setOnMouseClicked(this::doubleClick);
+        }
+        if (command.getHelp() != null) {
+            Button help = new Button();
+            help.getStyleClass().add("help-btn");
+            help.setMaxSize(30, 30);
+            help.setMinSize(30, 30);
+            help.setOnAction(actionEvent -> command.onHelpClick());
+            topButtonHbox.getChildren().add(help);
+            topButtonHbox.setSpacing(10);
         }
     }
 

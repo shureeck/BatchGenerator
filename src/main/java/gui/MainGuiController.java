@@ -42,7 +42,6 @@ public class MainGuiController {
     private ArrayList<NewCLICommand> newCLIScript;
     private YAMLReader yamlOld;
     private YAMLReader yamlNew;
-
     @FXML
     private TabPane tabPane = new TabPane();
     @FXML
