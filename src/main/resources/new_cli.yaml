@@ -524,7 +524,7 @@
   commands:
   - command: "SetSettings"
     attributes:
-    - attribute: "settingsType"
+    - attribute: "type"
       type: "String"
       values:
       - "global"
